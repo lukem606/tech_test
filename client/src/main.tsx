@@ -75,11 +75,33 @@ export const Main = () => {
     setCurrentPlayer(CurrentPlayer.X);
   }
 
+  const handleSliderChange = (value: number) => {
+    const resizedBoard = createBoard(value);
+    setBoard(resizedBoard);
+  }
+
+  const createBoard = (size: number) => {
+    const board: (XorO | undefined)[][] = [];
+
+    for (let rowIndex = 0; rowIndex < size; rowIndex++) {
+      const row: (XorO | undefined)[] = [];
+
+      for (let columnIndex = 0; columnIndex < size; columnIndex++) {
+        row.push(undefined)
+      }
+
+      board.push(row);
+    }
+
+    return board;
+  }
+
   return <div className='flex flex-col mt-10 items-center gap-10'>
     <div className='font-bold text-2xl'>Tic Tac Toe</div>
 
-    <Slider onChange={(value: number) => console.log(value)}></Slider>
-    <Board board={board} onClickSquare={handleClickSquare}></Board>
+    <div className='text-sm'>Drag the slider to resize the board</div>
+    <Slider onChange={handleSliderChange}></Slider>
+    <Board board={board} onClickSquare={handleClickSquare} className='mb-12'></Board>
     {winner && (
       <div>
         <div className="flex flex-row justify-center items-center mb-2">{winner} wins</div>
