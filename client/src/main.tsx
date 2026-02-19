@@ -57,12 +57,23 @@ export const Main = () => {
 
   const isTopRightDiagonalCompleted = (rowIndex: number, columnIndex: number): boolean => {
     if (rowIndex + columnIndex !== WIN_THRESHOLD - 1) return false
-    return [board[0][0], board[1][1], board[2][2]].every(element => element === currentPlayer);
+    return [board[0][2], board[1][1], board[2][0]].every(element => element === currentPlayer);
+  }
+
+  const handleReset = (): void => {
+    setWinner(undefined);
+    setBoard([
+      [undefined, undefined, undefined],
+      [undefined, undefined, undefined],
+      [undefined, undefined, undefined]
+    ]);
+    setCurrentPlayer(CurrentPlayer.X);
   }
 
   return <div className='flex flex-col mt-10 items-center gap-10'>
     <div className='font-bold text-2xl'>Tic Tac Toe</div>
     <div>{winner}</div>
     <Board board={board} onClickSquare={handleClickSquare}></Board>
+    {winner && <button onClick={handleReset}>Play again</button>}
   </div>
 }
