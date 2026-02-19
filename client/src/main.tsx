@@ -4,13 +4,10 @@ import { Board } from './components/Board';
 import { Slider } from './components/Slider';
 import { CurrentPlayer } from './enums';
 import { XorO } from './types';
+import { createBoard } from './util';
 
 export const Main = () => {
-  const [board, setBoard] = useState<(XorO | undefined)[][]>([
-    [undefined, undefined, undefined],
-    [undefined, undefined, undefined],
-    [undefined, undefined, undefined]
-  ])
+  const [board, setBoard] = useState<(XorO | undefined)[][]>(createBoard(3))
   const [currentPlayer, setCurrentPlayer] = useState<XorO>(CurrentPlayer.X);
   const [winner, setWinner] = useState<XorO | undefined>(undefined);
 
@@ -67,33 +64,13 @@ export const Main = () => {
 
   const handleReset = (): void => {
     setWinner(undefined);
-    setBoard([
-      [undefined, undefined, undefined],
-      [undefined, undefined, undefined],
-      [undefined, undefined, undefined]
-    ]);
+    setBoard(createBoard(3));
     setCurrentPlayer(CurrentPlayer.X);
   }
 
   const handleSliderChange = (value: number) => {
     const resizedBoard = createBoard(value);
     setBoard(resizedBoard);
-  }
-
-  const createBoard = (size: number) => {
-    const board: (XorO | undefined)[][] = [];
-
-    for (let rowIndex = 0; rowIndex < size; rowIndex++) {
-      const row: (XorO | undefined)[] = [];
-
-      for (let columnIndex = 0; columnIndex < size; columnIndex++) {
-        row.push(undefined)
-      }
-
-      board.push(row);
-    }
-
-    return board;
   }
 
   return <div className='flex flex-col mt-10 items-center gap-10'>
