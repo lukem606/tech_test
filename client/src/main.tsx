@@ -3,8 +3,6 @@ import { Board } from './components/Board';
 import { XorO } from './types';
 import { CurrentPlayer } from './enums';
 
-const WIN_THRESHOLD = 3;
-
 export const Main = () => {
   const [board, setBoard] = useState<(XorO | undefined)[][]>([
     [undefined, undefined, undefined],
@@ -61,7 +59,7 @@ export const Main = () => {
   }
 
   const isTopRightDiagonalCompleted = (rowIndex: number, columnIndex: number): boolean => {
-    if (rowIndex + columnIndex !== WIN_THRESHOLD - 1) return false
+    if (rowIndex + columnIndex !== board.length - 1) return false
     return [board[0][2], board[1][1], board[2][0]].every(element => element === currentPlayer);
   }
 
