@@ -18,15 +18,20 @@ export const Main = () => {
     if (winner) {
       return;
     }
-    const updatedBoard = [...board];
-    updatedBoard[rowIndex][columnIndex] = currentPlayer;
-    setBoard(updatedBoard);
+
+    updateBoard(rowIndex, columnIndex);
 
     if (isWinConditionMet(rowIndex, columnIndex)) {
       setWinner(currentPlayer);
     }
 
     setCurrentPlayer(currentPlayer === CurrentPlayer.X ? CurrentPlayer.O : CurrentPlayer.X);
+  }
+
+  const updateBoard = (rowIndex: number, columnIndex: number): void => {
+    const updatedBoard = [...board];
+    updatedBoard[rowIndex][columnIndex] = currentPlayer;
+    setBoard(updatedBoard);
   }
 
   const isWinConditionMet = (rowIndex: number, columnIndex: number): boolean => {
@@ -72,8 +77,13 @@ export const Main = () => {
 
   return <div className='flex flex-col mt-10 items-center gap-10'>
     <div className='font-bold text-2xl'>Tic Tac Toe</div>
-    <div>{winner}</div>
+
     <Board board={board} onClickSquare={handleClickSquare}></Board>
-    {winner && <button onClick={handleReset}>Play again</button>}
+    {winner && (
+      <div>
+        <div className="flex flex-row justify-center items-center mb-2">{winner} wins</div>
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleReset}>Play again</button>
+      </div>
+    )}
   </div>
 }
