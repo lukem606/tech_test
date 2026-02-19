@@ -4,12 +4,13 @@ import { Square } from "./Square";
 
 interface BoardProps {
     board: (XorO | undefined)[][];
+    onClickSquare: (rowIndex: number, columnIndex: number) => void;
 }
 
-export const Board = ({ board }: BoardProps) => {
+export const Board = ({ board, onClickSquare }: BoardProps) => {
     return <div className='flex flex-col gap-1'>
-        {board.map(row => <div className='flex gap-1'>
-            {row.map(column => <Square value={column}></Square>)}
+        {board.map((row, rowIndex) => <div className='flex gap-1'>
+            {row.map((column, columnIndex) => <Square key={`square-${rowIndex}-${columnIndex}`} value={column} onClickSquare={() => onClickSquare(rowIndex, columnIndex)}></Square>)}
         </div>)}
     </div>
 }
