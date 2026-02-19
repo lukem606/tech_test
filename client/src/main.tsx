@@ -40,13 +40,13 @@ export const Main = () => {
 
   const isRowCompleted = (rowIndex: number): boolean => {
     return board[rowIndex].every(element => {
-      element === currentPlayer
+      return element === currentPlayer
     })
   }
 
   const isColumnCompleted = (columnIndex: number): boolean => {
     return board.every(row => {
-      row[columnIndex] === currentPlayer
+      return row[columnIndex] === currentPlayer
     });
   }
 
