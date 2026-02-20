@@ -37,7 +37,7 @@ export const Main = () => {
   }
 
   const handleClickSquare = (rowIndex: number, columnIndex: number): void => {
-    if (!isInProgress || winner) {
+    if (!isInProgress || winner || board[rowIndex][columnIndex]) {
       return;
     }
 
@@ -51,7 +51,7 @@ export const Main = () => {
   }
 
   const updateBoard = (rowIndex: number, columnIndex: number): void => {
-    const updatedBoard = [...board];
+    const updatedBoard = board.map(row => [...row]);
     updatedBoard[rowIndex][columnIndex] = currentPlayer;
     setBoard(updatedBoard);
   }
