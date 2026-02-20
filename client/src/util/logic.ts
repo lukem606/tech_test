@@ -1,6 +1,19 @@
 import { XorO } from '../types';
 
+export const MIN_BOARD_SIZE = 3;
+export const MAX_BOARD_SIZE = 15;
+
+export const clampBoardSize = (size: number): number => {
+  return Math.min(MAX_BOARD_SIZE, Math.max(MIN_BOARD_SIZE, Math.round(size)));
+};
+
 export const createBoard = (size: number) => {
+  if (!Number.isInteger(size) || size < MIN_BOARD_SIZE || size > MAX_BOARD_SIZE) {
+    throw new RangeError(
+      `Board size must be an integer between ${MIN_BOARD_SIZE} and ${MAX_BOARD_SIZE}`
+    );
+  }
+
   const board: (XorO | undefined)[][] = [];
 
   for (let rowIndex = 0; rowIndex < size; rowIndex++) {

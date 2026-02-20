@@ -1,5 +1,5 @@
 import { CurrentPlayer } from '../enums';
-import { createBoard, isWinConditionMet } from './logic';
+import { createBoard, isWinConditionMet, MAX_BOARD_SIZE, MIN_BOARD_SIZE } from './logic';
 
 describe('logic', () => {
   const BOARD_SIZE = 4;
@@ -17,6 +17,36 @@ describe('logic', () => {
       const board = createBoard(BOARD_SIZE);
 
       expect(board.flatMap((row) => row).every((element) => element === undefined)).toBe(true);
+    });
+
+    it('should throw RangeException if size is not an integer', () => {
+      try {
+        createBoard(5.5);
+        fail();
+      } catch (error) {
+        expect(error).toBeInstanceOf(RangeError);
+        expect(error.message).toBe('Board size must be an integer between 3 and 15');
+      }
+    });
+
+    it('should throw RangeException if size is less than MIN_BOARD_SIZE', () => {
+      try {
+        createBoard(2);
+        fail();
+      } catch (error) {
+        expect(error).toBeInstanceOf(RangeError);
+        expect(error.message).toBe('Board size must be an integer between 3 and 15');
+      }
+    });
+
+    it('should throw RangeException if size is greater than MAX_BOARD_SIZE', () => {
+      try {
+        createBoard(16);
+        fail();
+      } catch (error) {
+        expect(error).toBeInstanceOf(RangeError);
+        expect(error.message).toBe('Board size must be an integer between 3 and 15');
+      }
     });
   });
 

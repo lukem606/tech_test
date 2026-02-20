@@ -4,13 +4,11 @@ import { Board } from './components/Board';
 import { Slider } from './components/Slider';
 import { CurrentPlayer } from './enums';
 import { XorO } from './types';
-import { createBoard, isWinConditionMet } from './util/logic';
-
-const INITIAL_BOARD_SIZE = 3;
+import { createBoard, isWinConditionMet, MIN_BOARD_SIZE } from './util/logic';
 
 export const Main = () => {
-  const [boardSize, setBoardSize] = useState<number>(INITIAL_BOARD_SIZE);
-  const [board, setBoard] = useState<(XorO | undefined)[][]>(createBoard(INITIAL_BOARD_SIZE));
+  const [boardSize, setBoardSize] = useState<number>(MIN_BOARD_SIZE);
+  const [board, setBoard] = useState<(XorO | undefined)[][]>(createBoard(MIN_BOARD_SIZE));
   const [currentPlayer, setCurrentPlayer] = useState<XorO>(CurrentPlayer.X);
   const [isInProgress, setIsInProgress] = useState<boolean>(false);
   const [winner, setWinner] = useState<XorO | undefined>(undefined);
