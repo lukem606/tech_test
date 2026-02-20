@@ -6,8 +6,11 @@ import { CurrentPlayer } from './enums';
 import { XorO } from './types';
 import { calculateTopLeftDiagonalIndices, calculateTopRightDiagonalIndices, createBoard } from './util';
 
+const INITIAL_BOARD_SIZE = 3;
+
 export const Main = () => {
-  const [board, setBoard] = useState<(XorO | undefined)[][]>(createBoard(3))
+  const [boardSize, setBoardSize] = useState<number>(INITIAL_BOARD_SIZE);
+  const [board, setBoard] = useState<(XorO | undefined)[][]>(createBoard(INITIAL_BOARD_SIZE))
   const [currentPlayer, setCurrentPlayer] = useState<XorO>(CurrentPlayer.X);
   const [isInProgress, setIsInProgress] = useState<boolean>(false);
   const [winner, setWinner] = useState<XorO | undefined>(undefined);
@@ -22,6 +25,7 @@ export const Main = () => {
   const handleSliderChange = (value: number) => {
     const resizedBoard = createBoard(value);
     setBoard(resizedBoard);
+    setBoardSize(value);
   }
 
   const handleStart = (): void => {
@@ -31,7 +35,7 @@ export const Main = () => {
   const handleReset = (): void => {
     setIsInProgress(false);
     setWinner(undefined);
-    setBoard(createBoard(3));
+    setBoard(createBoard(board.length));
     setCurrentPlayer(CurrentPlayer.X);
   }
 
@@ -89,7 +93,7 @@ export const Main = () => {
     {!isInProgress &&
       <>
         <div className='text-sm'>Drag the slider to resize the board</div>
-        <Slider onChange={handleSliderChange}></Slider>
+        <Slider value={boardSize} onChange={handleSliderChange}></Slider>
         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleStart}>Start game</button>
       </>
     }
