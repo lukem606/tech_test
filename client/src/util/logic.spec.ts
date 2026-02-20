@@ -1,5 +1,84 @@
+import { CurrentPlayer } from '../enums';
+import { createBoard, isWinConditionMet } from './logic';
+
 describe('logic', () => {
-  describe('isWinConditionMet', () => {});
-  describe('isWinConditionMet', () => {});
-  describe('isWinConditionMet', () => {});
+  const BOARD_SIZE = 4;
+
+  describe('createBoard', () => {
+    it('should create a board with rows and columns equal to the size parameter', () => {
+      const board = createBoard(BOARD_SIZE);
+
+      expect(board.length).toBe(BOARD_SIZE);
+      expect(board.every((row) => row.length === BOARD_SIZE)).toBe(true);
+      expect(board.flatMap((row) => row).length).toBe(BOARD_SIZE * BOARD_SIZE);
+    });
+
+    it('should initialise each element as undefined', () => {
+      const board = createBoard(BOARD_SIZE);
+
+      expect(board.flatMap((row) => row).every((element) => element === undefined)).toBe(true);
+    });
+  });
+
+  describe('isWinConditionMet', () => {
+    const player = CurrentPlayer.X;
+
+    it('should return true if a row is completed for current player', () => {
+      const board = createBoard(BOARD_SIZE);
+
+      board[0][0] = player;
+      board[0][1] = player;
+      board[0][2] = player;
+      board[0][3] = player;
+
+      const result = isWinConditionMet({ board, player, rowIndex: 0, columnIndex: 3 });
+
+      expect(result).toBe(true);
+    });
+
+    it('should return true if a column is completed', () => {
+      const board = createBoard(BOARD_SIZE);
+
+      board[0][0] = player;
+      board[1][0] = player;
+      board[2][0] = player;
+      board[3][0] = player;
+
+      const result = isWinConditionMet({ board, player, rowIndex: 3, columnIndex: 0 });
+
+      expect(result).toBe(true);
+    });
+
+    it('should return true if the top-left diagonal is completed', () => {
+      const board = createBoard(BOARD_SIZE);
+
+      board[0][0] = player;
+      board[1][1] = player;
+      board[2][2] = player;
+      board[3][3] = player;
+
+      const result = isWinConditionMet({ board, player, rowIndex: 3, columnIndex: 3 });
+
+      expect(result).toBe(true);
+    });
+
+    it('should return true if the top-right diagonal is completed', () => {
+      const board = createBoard(BOARD_SIZE);
+
+      board[0][3] = player;
+      board[1][2] = player;
+      board[2][1] = player;
+      board[3][0] = player;
+
+      const result = isWinConditionMet({ board, player, rowIndex: 0, columnIndex: 3 });
+
+      expect(result).toBe(true);
+    });
+
+    it('should return false if checking for the opposing player (edge case)', () => {});
+
+    it('should return false if row is incomplete', () => {});
+    it('should return false if column is incomplete', () => {});
+    it('should return false if ', () => {});
+  });
 });
