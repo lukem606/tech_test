@@ -41,48 +41,44 @@ export const Main = () => {
       return;
     }
 
-    updateBoard(rowIndex, columnIndex);
+    const updatedBoard = board.map(row => [...row]);
+    updatedBoard[rowIndex][columnIndex] = currentPlayer;
+    setBoard(updatedBoard);
 
-    if (isWinConditionMet(rowIndex, columnIndex)) {
+    if (isWinConditionMet(updatedBoard, rowIndex, columnIndex)) {
       setWinner(currentPlayer);
     }
 
     setCurrentPlayer(currentPlayer === CurrentPlayer.X ? CurrentPlayer.O : CurrentPlayer.X);
   }
 
-  const updateBoard = (rowIndex: number, columnIndex: number): void => {
-    const updatedBoard = board.map(row => [...row]);
-    updatedBoard[rowIndex][columnIndex] = currentPlayer;
-    setBoard(updatedBoard);
-  }
-
-  const isWinConditionMet = (rowIndex: number, columnIndex: number): boolean => {
+  const isWinConditionMet = (board: (XorO | undefined)[][], rowIndex: number, columnIndex: number): boolean => {
     return (
-      isRowCompleted(rowIndex) ||
-      isColumnCompleted(columnIndex) ||
-      isTopLeftDiagonalCompleted(rowIndex, columnIndex) ||
-      isTopRightDiagonalCompleted(rowIndex, columnIndex)
+      isRowCompleted(board, rowIndex) ||
+      isColumnCompleted(board, columnIndex) ||
+      isTopLeftDiagonalCompleted(board, rowIndex, columnIndex) ||
+      isTopRightDiagonalCompleted(board, rowIndex, columnIndex)
     )
   }
 
-  const isRowCompleted = (rowIndex: number): boolean => {
+  const isRowCompleted = (board: (XorO | undefined)[][], rowIndex: number): boolean => {
     return board[rowIndex].every(element => {
       return element === currentPlayer
     })
   }
 
-  const isColumnCompleted = (columnIndex: number): boolean => {
+  const isColumnCompleted = (board: (XorO | undefined)[][], columnIndex: number): boolean => {
     return board.every(row => {
       return row[columnIndex] === currentPlayer
     });
   }
 
-  const isTopLeftDiagonalCompleted = (rowIndex: number, columnIndex: number): boolean => {
+  const isTopLeftDiagonalCompleted = (board: (XorO | undefined)[][], rowIndex: number, columnIndex: number): boolean => {
     if (rowIndex !== columnIndex) return false;
     return topLeftDiagonalIndices.every(([rowIndex, columnIndex]) => board[rowIndex][columnIndex] === currentPlayer);
   }
 
-  const isTopRightDiagonalCompleted = (rowIndex: number, columnIndex: number): boolean => {
+  const isTopRightDiagonalCompleted = (board: (XorO | undefined)[][], rowIndex: number, columnIndex: number): boolean => {
     if (rowIndex + columnIndex !== board.length - 1) return false
     return topRightDiagonalIndices.every(([rowIndex, columnIndex]) => board[rowIndex][columnIndex] === currentPlayer);
   }
@@ -98,7 +94,7 @@ export const Main = () => {
       </>
     }
 
-    <Board board={board} onClickSquare={handleClickSquare} className='mb-12'></Board>
+    <Board board={board} onClickSquare={handleClickSquare}></Board>
     {winner && (
       <div>
         <div className="flex flex-row justify-center items-center mb-2">{winner} wins</div>
