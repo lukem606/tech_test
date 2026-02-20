@@ -1,4 +1,4 @@
 export enum CurrentPlayer {
-    X = 'X',
-    O = 'O'
+  X = 'X',
+  O = 'O',
 }
