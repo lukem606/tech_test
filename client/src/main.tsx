@@ -1,16 +1,24 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { Board } from './components/Board';
 import { Slider } from './components/Slider';
 import { CurrentPlayer } from './enums';
 import { XorO } from './types';
-import { createBoard } from './util';
+import { calculateTopLeftDiagonalIndices, calculateTopRightDiagonalIndices, createBoard } from './util';
 
 export const Main = () => {
   const [board, setBoard] = useState<(XorO | undefined)[][]>(createBoard(3))
   const [currentPlayer, setCurrentPlayer] = useState<XorO>(CurrentPlayer.X);
   const [isInProgress, setIsInProgress] = useState<boolean>(false);
   const [winner, setWinner] = useState<XorO | undefined>(undefined);
+
+  const topLeftDiagonalIndices = useMemo(() => {
+    return calculateTopLeftDiagonalIndices(board.length)
+  }, [board.length]);
+
+  const topRightDiagonalIndices = useMemo(() => {
+    return calculateTopRightDiagonalIndices(board.length);
+  }, [board.length]);
 
   const handleSliderChange = (value: number) => {
     const resizedBoard = createBoard(value);
@@ -71,12 +79,12 @@ export const Main = () => {
 
   const isTopLeftDiagonalCompleted = (rowIndex: number, columnIndex: number): boolean => {
     if (rowIndex !== columnIndex) return false;
-    return [board[0][0], board[1][1], board[2][2]].every(element => element === currentPlayer);
+    return topLeftDiagonalIndices.every(([rowIndex, columnIndex]) => board[rowIndex][columnIndex] === currentPlayer);
   }
 
   const isTopRightDiagonalCompleted = (rowIndex: number, columnIndex: number): boolean => {
     if (rowIndex + columnIndex !== board.length - 1) return false
-    return [board[0][2], board[1][1], board[2][0]].every(element => element === currentPlayer);
+    return topRightDiagonalIndices.every(([rowIndex, columnIndex]) => board[rowIndex][columnIndex] === currentPlayer);
   }
 
   return <div className='flex flex-col mt-10 items-center gap-10'>
