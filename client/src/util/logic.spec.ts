@@ -75,10 +75,85 @@ describe('logic', () => {
       expect(result).toBe(true);
     });
 
-    it('should return false if checking for the opposing player (edge case)', () => {});
+    it('should return false if row is incomplete', () => {
+      const board = createBoard(BOARD_SIZE);
 
-    it('should return false if row is incomplete', () => {});
-    it('should return false if column is incomplete', () => {});
-    it('should return false if ', () => {});
+      board[2][0] = player;
+      board[2][1] = player;
+      board[2][2] = player;
+
+      const result = isWinConditionMet({ board, player, rowIndex: 2, columnIndex: 2 });
+
+      expect(result).toBe(false);
+    });
+
+    it('should return false if column is incomplete', () => {
+      const board = createBoard(BOARD_SIZE);
+
+      board[0][1] = player;
+      board[1][1] = player;
+      board[2][1] = player;
+
+      const result = isWinConditionMet({ board, player, rowIndex: 2, columnIndex: 1 });
+
+      expect(result).toBe(false);
+    });
+
+    it('should return false if top-left diagonal is incomplete', () => {
+      const board = createBoard(BOARD_SIZE);
+
+      board[0][0] = player;
+      board[1][1] = player;
+      board[2][2] = player;
+
+      const result = isWinConditionMet({ board, player, rowIndex: 2, columnIndex: 2 });
+
+      expect(result).toBe(false);
+    });
+
+    it('should return false if top-right diagonal is incomplete', () => {
+      const board = createBoard(BOARD_SIZE);
+
+      board[0][3] = player;
+      board[1][2] = player;
+      board[2][1] = player;
+
+      const result = isWinConditionMet({ board, player, rowIndex: 2, columnIndex: 1 });
+
+      expect(result).toBe(false);
+    });
+
+    it('should return false if last move is not on a diagonal, even when some diagonal cells match', () => {
+      const board = createBoard(BOARD_SIZE);
+
+      board[0][0] = player;
+      board[1][1] = player;
+      board[2][2] = player;
+      board[0][3] = player;
+      board[1][2] = player;
+      board[2][1] = player;
+
+      const result = isWinConditionMet({ board, player, rowIndex: 1, columnIndex: 0 });
+
+      expect(result).toBe(false);
+    });
+
+    it('should return false if checking for the opposing player (edge case)', () => {
+      const board = createBoard(BOARD_SIZE);
+
+      board[0][0] = player;
+      board[0][1] = player;
+      board[0][2] = player;
+      board[0][3] = player;
+
+      const result = isWinConditionMet({
+        board,
+        player: CurrentPlayer.O,
+        rowIndex: 0,
+        columnIndex: 3,
+      });
+
+      expect(result).toBe(false);
+    });
   });
 });
