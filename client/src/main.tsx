@@ -9,10 +9,27 @@ import { createBoard } from './util';
 export const Main = () => {
   const [board, setBoard] = useState<(XorO | undefined)[][]>(createBoard(3))
   const [currentPlayer, setCurrentPlayer] = useState<XorO>(CurrentPlayer.X);
+  const [isInProgress, setIsInProgress] = useState<boolean>(false);
   const [winner, setWinner] = useState<XorO | undefined>(undefined);
 
+  const handleSliderChange = (value: number) => {
+    const resizedBoard = createBoard(value);
+    setBoard(resizedBoard);
+  }
+
+  const handleStart = (): void => {
+    setIsInProgress(true);
+  }
+
+  const handleReset = (): void => {
+    setIsInProgress(false);
+    setWinner(undefined);
+    setBoard(createBoard(3));
+    setCurrentPlayer(CurrentPlayer.X);
+  }
+
   const handleClickSquare = (rowIndex: number, columnIndex: number): void => {
-    if (winner) {
+    if (!isInProgress || winner) {
       return;
     }
 
@@ -62,22 +79,17 @@ export const Main = () => {
     return [board[0][2], board[1][1], board[2][0]].every(element => element === currentPlayer);
   }
 
-  const handleReset = (): void => {
-    setWinner(undefined);
-    setBoard(createBoard(3));
-    setCurrentPlayer(CurrentPlayer.X);
-  }
-
-  const handleSliderChange = (value: number) => {
-    const resizedBoard = createBoard(value);
-    setBoard(resizedBoard);
-  }
-
   return <div className='flex flex-col mt-10 items-center gap-10'>
     <div className='font-bold text-2xl'>Tic Tac Toe</div>
 
-    <div className='text-sm'>Drag the slider to resize the board</div>
-    <Slider onChange={handleSliderChange}></Slider>
+    {!isInProgress &&
+      <>
+        <div className='text-sm'>Drag the slider to resize the board</div>
+        <Slider onChange={handleSliderChange}></Slider>
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleStart}>Start game</button>
+      </>
+    }
+
     <Board board={board} onClickSquare={handleClickSquare} className='mb-12'></Board>
     {winner && (
       <div>
