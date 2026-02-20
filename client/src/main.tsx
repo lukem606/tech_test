@@ -12,8 +12,12 @@ export const Main = () => {
   const [isInProgress, setIsInProgress] = useState<boolean>(false);
   const [winner, setWinner] = useState<XorO | undefined>(undefined);
 
-  const topLeftDiagonalIndices = calculateTopLeftDiagonalIndices(board.length);
-  const topRightDiagonalIndices = calculateTopRightDiagonalIndices(board.length);
+  const { topLeftDiagonalIndices, topRightDiagonalIndices } = useMemo(() => {
+    return {
+      topLeftDiagonalIndices: calculateTopLeftDiagonalIndices(board.length),
+      topRightDiagonalIndices: calculateTopRightDiagonalIndices(board.length)
+    };
+  }, [board.length]);
 
   const handleSliderChange = (value: number) => {
     const resizedBoard = createBoard(value);
