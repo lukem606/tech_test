@@ -4,8 +4,7 @@ import { Board } from './components/Board';
 import { Slider } from './components/Slider';
 import { CurrentPlayer } from './enums';
 import { XorO } from './types';
-import { createBoard } from './util';
-import { isWinConditionMet } from './util/logic';
+import { createBoard, isWinConditionMet } from './util/logic';
 
 const INITIAL_BOARD_SIZE = 3;
 

@@ -1,5 +1,20 @@
 import { XorO } from '../types';
-import { calculateTopLeftDiagonalIndices, calculateTopRightDiagonalIndices } from '../util';
+
+export const createBoard = (size: number) => {
+  const board: (XorO | undefined)[][] = [];
+
+  for (let rowIndex = 0; rowIndex < size; rowIndex++) {
+    const row: (XorO | undefined)[] = [];
+
+    for (let columnIndex = 0; columnIndex < size; columnIndex++) {
+      row.push(undefined);
+    }
+
+    board.push(row);
+  }
+
+  return board;
+};
 
 export const isWinConditionMet = ({
   board,
@@ -50,6 +65,14 @@ const isTopLeftDiagonalCompleted = (
   );
 };
 
+const calculateTopLeftDiagonalIndices = (size: number) => {
+  const indices: number[][] = [];
+  for (let i = 0; i < size; i++) {
+    indices.push([i, i]);
+  }
+  return indices;
+};
+
 const isTopRightDiagonalCompleted = (
   board: (XorO | undefined)[][],
   player: XorO,
@@ -62,4 +85,12 @@ const isTopRightDiagonalCompleted = (
   return topRightDiagonalIndices.every(
     ([rowIndex, columnIndex]) => board[rowIndex][columnIndex] === player
   );
+};
+
+const calculateTopRightDiagonalIndices = (size: number) => {
+  const indices: number[][] = [];
+  for (let i = 0; i < size; i++) {
+    indices.push([i, size - 1 - i]);
+  }
+  return indices;
 };
