@@ -6,7 +6,9 @@
     "build": "webpack --mode production",
     "start": "webpack serve",
     "test": "jest",
-    "lint": "eslint"
+    "lint": "eslint",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "keywords": [],
   "author": "",
