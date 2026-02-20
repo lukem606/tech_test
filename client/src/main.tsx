@@ -12,13 +12,8 @@ export const Main = () => {
   const [isInProgress, setIsInProgress] = useState<boolean>(false);
   const [winner, setWinner] = useState<XorO | undefined>(undefined);
 
-  const topLeftDiagonalIndices = useMemo(() => {
-    return calculateTopLeftDiagonalIndices(board.length)
-  }, [board.length]);
-
-  const topRightDiagonalIndices = useMemo(() => {
-    return calculateTopRightDiagonalIndices(board.length);
-  }, [board.length]);
+  const topLeftDiagonalIndices = calculateTopLeftDiagonalIndices(board.length);
+  const topRightDiagonalIndices = calculateTopRightDiagonalIndices(board.length);
 
   const handleSliderChange = (value: number) => {
     const resizedBoard = createBoard(value);
@@ -47,6 +42,7 @@ export const Main = () => {
 
     if (isWinConditionMet(updatedBoard, rowIndex, columnIndex)) {
       setWinner(currentPlayer);
+      return;
     }
 
     setCurrentPlayer(currentPlayer === CurrentPlayer.X ? CurrentPlayer.O : CurrentPlayer.X);
