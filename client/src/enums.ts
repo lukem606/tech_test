@@ -1,4 +1,4 @@
-export enum CurrentPlayer {
+export enum Player {
   X = 'X',
   O = 'O',
 }

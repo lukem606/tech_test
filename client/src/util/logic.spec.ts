@@ -1,4 +1,4 @@
-import { CurrentPlayer } from '../enums';
+import { Player } from '../enums';
 import { createBoard, isWinConditionMet, MAX_BOARD_SIZE, MIN_BOARD_SIZE } from './logic';
 
 describe('logic', () => {
@@ -51,7 +51,7 @@ describe('logic', () => {
   });
 
   describe('isWinConditionMet', () => {
-    const player = CurrentPlayer.X;
+    const player = Player.X;
 
     it('should return true if a row is completed for current player', () => {
       const board = createBoard(BOARD_SIZE);
@@ -178,7 +178,7 @@ describe('logic', () => {
 
       const result = isWinConditionMet({
         board,
-        player: CurrentPlayer.O,
+        player: Player.O,
         rowIndex: 0,
         columnIndex: 3,
       });

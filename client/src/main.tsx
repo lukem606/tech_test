@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 
 import { Board } from './components/Board';
 import { Slider } from './components/Slider';
-import { CurrentPlayer } from './enums';
+import { Player } from './enums';
 import { XorO } from './types';
 import { createBoard, isWinConditionMet, MIN_BOARD_SIZE } from './util/logic';
 
 export const Main = () => {
   const [boardSize, setBoardSize] = useState<number>(MIN_BOARD_SIZE);
   const [board, setBoard] = useState<(XorO | undefined)[][]>(createBoard(MIN_BOARD_SIZE));
-  const [currentPlayer, setCurrentPlayer] = useState<XorO>(CurrentPlayer.X);
+  const [currentPlayer, setCurrentPlayer] = useState<XorO>(Player.X);
   const [isInProgress, setIsInProgress] = useState<boolean>(false);
   const [winner, setWinner] = useState<XorO | undefined>(undefined);
 
@@ -27,7 +27,7 @@ export const Main = () => {
     setIsInProgress(false);
     setWinner(undefined);
     setBoard(createBoard(board.length));
-    setCurrentPlayer(CurrentPlayer.X);
+    setCurrentPlayer(Player.X);
   };
 
   const handleClickSquare = (rowIndex: number, columnIndex: number): void => {
@@ -44,7 +44,7 @@ export const Main = () => {
       return;
     }
 
-    setCurrentPlayer(currentPlayer === CurrentPlayer.X ? CurrentPlayer.O : CurrentPlayer.X);
+    setCurrentPlayer(currentPlayer === Player.X ? Player.O : Player.X);
   };
 
   return (
