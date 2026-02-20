@@ -1,10 +1,11 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Board } from './components/Board';
 import { Slider } from './components/Slider';
 import { CurrentPlayer } from './enums';
 import { XorO } from './types';
-import { calculateTopLeftDiagonalIndices, calculateTopRightDiagonalIndices, createBoard } from './util';
+import { createBoard } from './util';
+import { isWinConditionMet } from './util/logic';
 
 const INITIAL_BOARD_SIZE = 3;
 
@@ -14,13 +15,6 @@ export const Main = () => {
   const [currentPlayer, setCurrentPlayer] = useState<XorO>(CurrentPlayer.X);
   const [isInProgress, setIsInProgress] = useState<boolean>(false);
   const [winner, setWinner] = useState<XorO | undefined>(undefined);
-
-  const { topLeftDiagonalIndices, topRightDiagonalIndices } = useMemo(() => {
-    return {
-      topLeftDiagonalIndices: calculateTopLeftDiagonalIndices(board.length),
-      topRightDiagonalIndices: calculateTopRightDiagonalIndices(board.length)
-    };
-  }, [board.length]);
 
   const handleSliderChange = (value: number) => {
     const resizedBoard = createBoard(value);
@@ -48,43 +42,12 @@ export const Main = () => {
     updatedBoard[rowIndex][columnIndex] = currentPlayer;
     setBoard(updatedBoard);
 
-    if (isWinConditionMet(updatedBoard, rowIndex, columnIndex)) {
+    if (isWinConditionMet({ board: updatedBoard, player: currentPlayer, rowIndex, columnIndex })) {
       setWinner(currentPlayer);
       return;
     }
 
     setCurrentPlayer(currentPlayer === CurrentPlayer.X ? CurrentPlayer.O : CurrentPlayer.X);
-  }
-
-  const isWinConditionMet = (board: (XorO | undefined)[][], rowIndex: number, columnIndex: number): boolean => {
-    return (
-      isRowCompleted(board, rowIndex) ||
-      isColumnCompleted(board, columnIndex) ||
-      isTopLeftDiagonalCompleted(board, rowIndex, columnIndex) ||
-      isTopRightDiagonalCompleted(board, rowIndex, columnIndex)
-    )
-  }
-
-  const isRowCompleted = (board: (XorO | undefined)[][], rowIndex: number): boolean => {
-    return board[rowIndex].every(element => {
-      return element === currentPlayer
-    })
-  }
-
-  const isColumnCompleted = (board: (XorO | undefined)[][], columnIndex: number): boolean => {
-    return board.every(row => {
-      return row[columnIndex] === currentPlayer
-    });
-  }
-
-  const isTopLeftDiagonalCompleted = (board: (XorO | undefined)[][], rowIndex: number, columnIndex: number): boolean => {
-    if (rowIndex !== columnIndex) return false;
-    return topLeftDiagonalIndices.every(([rowIndex, columnIndex]) => board[rowIndex][columnIndex] === currentPlayer);
-  }
-
-  const isTopRightDiagonalCompleted = (board: (XorO | undefined)[][], rowIndex: number, columnIndex: number): boolean => {
-    if (rowIndex + columnIndex !== board.length - 1) return false
-    return topRightDiagonalIndices.every(([rowIndex, columnIndex]) => board[rowIndex][columnIndex] === currentPlayer);
   }
 
   return <div className='flex flex-col mt-10 items-center gap-10'>
