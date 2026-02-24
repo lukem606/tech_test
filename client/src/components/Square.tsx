@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { Player } from '../enums';
 
 interface SquareProps {
   value: string | undefined;

@@ -1,5 +1,5 @@
 import { Player } from '../enums';
-import { createBoard, isWinConditionMet, MAX_BOARD_SIZE, MIN_BOARD_SIZE } from './logic';
+import { createBoard, isWinConditionMet } from './logic';
 
 describe('logic', () => {
   const BOARD_SIZE = 4;

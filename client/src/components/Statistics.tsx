@@ -1,7 +1,7 @@
 import React from 'react';
 import { GameStats } from '../types';
-import { StatisticsRow } from './StatisticsRow';
 import { Line } from './Line';
+import { StatisticsRow } from './StatisticsRow';
 
 interface StatisticsProps {
   gameStats: GameStats | undefined;
