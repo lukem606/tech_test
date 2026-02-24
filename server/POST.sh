@@ -1,1 +1,0 @@
-curl -X POST http://localhost:3002/games -H "Content-Type: application/json" -d "{\"winner\":\"X\",\"totalMoves\":10,\"durationSecs\":300}"
