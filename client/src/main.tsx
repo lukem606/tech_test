@@ -8,6 +8,7 @@ import { createBoard, isWinConditionMet, MIN_BOARD_SIZE } from './util/logic';
 import { Statistics } from './components/Statistics';
 import { postGame } from './api/postGame';
 import { useGameStats } from './hooks/useGameStats';
+import { Game } from './components/Game';
 
 export const Main = () => {
   const [boardSize, setBoardSize] = useState<number>(MIN_BOARD_SIZE);
@@ -75,37 +76,17 @@ export const Main = () => {
       <div className="font-bold text-2xl">Tic Tac Toe</div>
 
       <div className="flex flex-row mt-10 items-center gap-20">
-        <div className="flex flex-col mt-10 items-center gap-10">
-          {!isInProgress && (
-            <>
-              <div className="text-sm">Drag the slider to resize the board</div>
-              <Slider value={boardSize} onChange={handleSliderChange}></Slider>
-              <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                onClick={handleStart}
-              >
-                Start game
-              </button>
-            </>
-          )}
-
-          <GameBoard board={board} onClickSquare={handleClickSquare}></GameBoard>
-          {winner && (
-            <div>
-              <div className="flex flex-row justify-center items-center mb-2">{winner} wins</div>
-              <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                onClick={handleReset}
-              >
-                Play again
-              </button>
-            </div>
-          )}
-        </div>
-
-        <div className="flex flex-col mt-10 items-center gap-10">
-          <Statistics gameStats={gameStats} />
-        </div>
+        <Game
+          board={board}
+          boardSize={boardSize}
+          winner={winner}
+          isInProgress={isInProgress}
+          onClickSquare={handleClickSquare}
+          onReset={handleReset}
+          onSliderChange={handleSliderChange}
+          onStart={handleStart}
+        ></Game>
+        <Statistics gameStats={gameStats} />
       </div>
     </div>
   );
