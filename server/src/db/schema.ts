@@ -11,6 +11,7 @@ export const games = pgTable("games", {
   winner: varchar("winner", { length: 1 }).notNull(),
   durationSecs: integer("duration_secs").notNull(),
   totalMoves: integer("total_moves").notNull(),
+  boardSize: integer("board_size").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
   deletedAt: timestamp("deleted_at"),

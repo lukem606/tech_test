@@ -57,7 +57,12 @@ export const Main = () => {
         gameDuration = Math.ceil((new Date().getTime() - startTime?.getTime()) / 1000);
       }
 
-      await postGame({ winner: currentPlayer, durationSecs: gameDuration, totalMoves: moves + 1 });
+      await postGame({
+        winner: currentPlayer,
+        durationSecs: gameDuration,
+        totalMoves: moves + 1,
+        boardSize,
+      });
       await refetch();
       return;
     }

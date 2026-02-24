@@ -12,19 +12,21 @@ interface CreateGameRequestBody {
   winner: Player;
   durationSecs: number;
   totalMoves: number;
+  boardSize: number;
 }
 
 const postGamesHandler: RequestHandler = async (
   req: Request<{}, {}, CreateGameRequestBody>,
   res: Response,
 ) => {
-  const { winner, durationSecs, totalMoves } = req.body;
+  const { winner, durationSecs, totalMoves, boardSize } = req.body;
 
   try {
     await db.insert(games).values({
       winner,
       durationSecs,
       totalMoves,
+      boardSize,
     });
 
     res.json({ status: 201, message: "Game created successfully." });
