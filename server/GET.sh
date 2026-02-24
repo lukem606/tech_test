@@ -1,1 +1,1 @@
-curl localhost:3002/games
+curl localhost:3002/games/stats

@@ -1,7 +1,4 @@
-export type CreateGameDto = Pick<
-  Game,
-  "winner" | "durationSecs" | "totalMoves"
->;
+import type { Player } from "./enums.js";
 
 export type Game = {
   id: number;
@@ -12,5 +9,3 @@ export type Game = {
   updatedAt: Date;
   deletedAt?: Date;
 };
-
-export type Player = "X" | "O";
