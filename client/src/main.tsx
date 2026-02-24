@@ -14,6 +14,8 @@ export const Main = () => {
   const [currentPlayer, setCurrentPlayer] = useState<XorO>(Player.X);
   const [isInProgress, setIsInProgress] = useState<boolean>(false);
   const [winner, setWinner] = useState<XorO | undefined>(undefined);
+  const [moves, setMoves] = useState(0);
+  const [startTime, setStartTime] = useState<Date | undefined>(undefined);
 
   const handleSliderChange = (value: number) => {
     const resizedBoard = createBoard(value);
@@ -23,6 +25,7 @@ export const Main = () => {
 
   const handleStart = (): void => {
     setIsInProgress(true);
+    setStartTime(new Date());
   };
 
   const handleReset = (): void => {
@@ -30,6 +33,8 @@ export const Main = () => {
     setWinner(undefined);
     setBoard(createBoard(board.length));
     setCurrentPlayer(Player.X);
+    setStartTime(undefined);
+    setMoves(0);
   };
 
   const handleClickSquare = async (rowIndex: number, columnIndex: number): Promise<void> => {
@@ -43,7 +48,13 @@ export const Main = () => {
 
     if (isWinConditionMet({ board: updatedBoard, player: currentPlayer, rowIndex, columnIndex })) {
       setWinner(currentPlayer);
-      await postGame({ winner: currentPlayer });
+
+      let gameDuration = 0;
+      if (startTime) {
+        gameDuration = Math.ceil((new Date().getTime() - startTime?.getTime()) / 1000);
+      }
+
+      await postGame({ winner: currentPlayer, durationSecs: gameDuration, totalMoves: moves + 1 });
       return;
     }
 
