@@ -49,14 +49,18 @@ const getGamesStatsHandler: RequestHandler = async (
         totalPlayTimeSecs: sum(games.durationSecs),
         averageGameTimeSecs: avg(games.durationSecs),
         averageMovesToWin: avg(games.totalMoves),
-        totalWinsX: sql<number>`count(*) filter (where ${games.winner} = ${Player.X})`,
-        totalWinsO: sql<number>`count(*) filter (where ${games.winner} = ${Player.O})`,
+        totalWinsX: sql<string>`count(*) filter (where ${games.winner} = ${Player.X})`,
+        totalWinsO: sql<string>`count(*) filter (where ${games.winner} = ${Player.O})`,
       })
       .from(games);
 
+    if (!data || !data[0]) {
+      throw new Error("No data avilable");
+    }
+
     res.json({
       status: 200,
-      data,
+      data: formatGameStatsData(data[0]),
       message: "Game stats retrieved successfully.",
     });
   } catch (error) {
@@ -67,6 +71,37 @@ const getGamesStatsHandler: RequestHandler = async (
       error: getErrorDetails(error),
     });
   }
+};
+
+const formatGameStatsData = ({
+  totalGames,
+  totalPlayTimeSecs,
+  averageGameTimeSecs,
+  averageMovesToWin,
+  totalWinsX,
+  totalWinsO,
+}: {
+  totalGames: number;
+  totalPlayTimeSecs: string | null;
+  averageGameTimeSecs: string | null;
+  averageMovesToWin: string | null;
+  totalWinsX: string;
+  totalWinsO: string;
+}) => {
+  return {
+    totalGames,
+    totalPlayTimeSecs: totalPlayTimeSecs
+      ? Number.parseInt(totalPlayTimeSecs)
+      : 0,
+    averageGameTimeSecs: averageGameTimeSecs
+      ? Number.parseFloat(averageGameTimeSecs)
+      : 0,
+    averageMovesToWin: averageMovesToWin
+      ? Number.parseFloat(averageMovesToWin)
+      : 0,
+    totalWinsX: Number.parseInt(totalWinsX),
+    totalWinsO: Number.parseInt(totalWinsO),
+  };
 };
 
 const getErrorDetails = (error: unknown) => {

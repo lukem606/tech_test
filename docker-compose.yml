@@ -28,6 +28,8 @@ services:
       - /app/node_modules
     networks:
       - my-network
+    depends_on:
+      - db
 
   db:
     image: postgres:16

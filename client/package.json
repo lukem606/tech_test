@@ -36,6 +36,8 @@
     "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
-    "rc-slider": "^11.1.9"
+    "axios": "^1.13.5",
+    "rc-slider": "^11.1.9",
+    "zod": "^4.3.6"
   }
 }
