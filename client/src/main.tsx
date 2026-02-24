@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Board } from './components/Board';
+import { GameBoard } from './components/GameBoard';
 import { Slider } from './components/Slider';
 import { Player } from './enums';
 import { XorO } from './types';
@@ -64,7 +64,7 @@ export const Main = () => {
         </>
       )}
 
-      <Board board={board} onClickSquare={handleClickSquare}></Board>
+      <GameBoard board={board} onClickSquare={handleClickSquare}></GameBoard>
       {winner && (
         <div>
           <div className="flex flex-row justify-center items-center mb-2">{winner} wins</div>

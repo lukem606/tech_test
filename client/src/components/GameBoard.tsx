@@ -2,12 +2,12 @@ import React, { FC } from 'react';
 import { XorO } from '../types';
 import { Square } from './Square';
 
-interface BoardProps {
+interface GameBoardProps {
   board: (XorO | undefined)[][];
   onClickSquare: (rowIndex: number, columnIndex: number) => void;
 }
 
-export const Board: FC<BoardProps> = ({ board, onClickSquare }: BoardProps) => {
+export const GameBoard: FC<GameBoardProps> = ({ board, onClickSquare }: GameBoardProps) => {
   return (
     <div className={`flex flex-col gap-1`}>
       {board.map((row, rowIndex) => (
