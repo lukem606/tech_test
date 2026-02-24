@@ -7,6 +7,7 @@ import { XorO } from './types';
 import { createBoard, isWinConditionMet, MIN_BOARD_SIZE } from './util/logic';
 import { Statistics } from './components/Statistics';
 import { postGame } from './api/postGame';
+import { useGameStats } from './hooks/useGameStats';
 
 export const Main = () => {
   const [boardSize, setBoardSize] = useState<number>(MIN_BOARD_SIZE);
@@ -16,6 +17,8 @@ export const Main = () => {
   const [winner, setWinner] = useState<XorO | undefined>(undefined);
   const [moves, setMoves] = useState(0);
   const [startTime, setStartTime] = useState<Date | undefined>(undefined);
+
+  const { gameStats, refetch } = useGameStats();
 
   const handleSliderChange = (value: number) => {
     const resizedBoard = createBoard(value);
@@ -55,6 +58,7 @@ export const Main = () => {
       }
 
       await postGame({ winner: currentPlayer, durationSecs: gameDuration, totalMoves: moves + 1 });
+      await refetch();
       return;
     }
 
@@ -95,7 +99,7 @@ export const Main = () => {
         </div>
 
         <div className="flex flex-col mt-10 items-center gap-10">
-          <Statistics></Statistics>
+          <Statistics gameStats={gameStats} />
         </div>
       </div>
     </div>

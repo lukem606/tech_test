@@ -27,6 +27,6 @@ export const getGameStats = async () => {
     if (parseResult.success) return parseResult.data.data;
     if (parseResult.error) throw new Error('Failed to get game stats');
   } catch (error) {
-    console.error('Failed to get game stats');
+    console.error('Failed to get game stats', error);
   }
 };
