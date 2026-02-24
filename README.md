@@ -1,6 +1,6 @@
 # Luke's implementation
 
-Hello, here's my submission for the Spruce tech challenge. You can run the entire thing from root using "docker compose up -d --build". The server is running on 3002, the client on 3001.
+Hello, here's my submission for the Spruce tech challenge. You can run the entire thing from root using `docker compose up -d --build`. The server is running on 3002, the client on 3001.
 
 There are a few improvements I'd like to make, although I think I've covered the main functionality so decided not to imlpement these bits.
 
