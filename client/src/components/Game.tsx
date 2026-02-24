@@ -26,13 +26,13 @@ export const Game: FC<GameProps> = ({
   onStart,
 }: GameProps) => {
   return (
-    <div className="flex flex-col mt-10 items-center gap-10">
+    <div className="flex flex-col items-center gap-5 w-[700px]">
       {!isInProgress && (
         <>
           <div className="text-sm">Drag the slider to resize the board</div>
           <Slider value={boardSize} onChange={onSliderChange}></Slider>
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-light-green hover:bg-darkest-green hover:text-white text-darkest-green font-bold py-2 px-4 rounded"
             onClick={onStart}
           >
             Start game
@@ -40,19 +40,19 @@ export const Game: FC<GameProps> = ({
         </>
       )}
 
-      <GameBoard board={board} onClickSquare={onClickSquare}></GameBoard>
-
       {winner && (
         <div>
           <div className="flex flex-row justify-center items-center mb-2">{winner} wins</div>
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-light-green hover:bg-darkest-green hover:text-white text-darkest-green font-bold py-2 px-4 rounded"
             onClick={onReset}
           >
             Play again
           </button>
         </div>
       )}
+
+      <GameBoard board={board} onClickSquare={onClickSquare}></GameBoard>
     </div>
   );
 };

@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 
-import { GameBoard } from './components/GameBoard';
-import { Slider } from './components/Slider';
+import { postGame } from './api/postGame';
+import { Game } from './components/Game';
+import { Statistics } from './components/Statistics';
 import { Player } from './enums';
+import { useGameStats } from './hooks/useGameStats';
 import { XorO } from './types';
 import { createBoard, isWinConditionMet, MIN_BOARD_SIZE } from './util/logic';
-import { Statistics } from './components/Statistics';
-import { postGame } from './api/postGame';
-import { useGameStats } from './hooks/useGameStats';
-import { Game } from './components/Game';
 
 export const Main = () => {
   const [boardSize, setBoardSize] = useState<number>(MIN_BOARD_SIZE);
@@ -72,21 +70,23 @@ export const Main = () => {
   };
 
   return (
-    <div className="flex flex-col mt-10 items-center gap-10">
-      <div className="font-bold text-2xl">Tic Tac Toe</div>
+    <div className="min-h-screen bg-dark-green text-white p-10">
+      <div className="flex flex-col items-center gap-10">
+        <div className="font-bold text-2xl">Tic Tac Toe</div>
 
-      <div className="flex flex-row mt-10 items-center gap-20">
-        <Game
-          board={board}
-          boardSize={boardSize}
-          winner={winner}
-          isInProgress={isInProgress}
-          onClickSquare={handleClickSquare}
-          onReset={handleReset}
-          onSliderChange={handleSliderChange}
-          onStart={handleStart}
-        ></Game>
-        <Statistics gameStats={gameStats} />
+        <div className="flex flex-row gap-10">
+          <Statistics gameStats={gameStats} />
+          <Game
+            board={board}
+            boardSize={boardSize}
+            winner={winner}
+            isInProgress={isInProgress}
+            onClickSquare={handleClickSquare}
+            onReset={handleReset}
+            onSliderChange={handleSliderChange}
+            onStart={handleStart}
+          ></Game>
+        </div>
       </div>
     </div>
   );

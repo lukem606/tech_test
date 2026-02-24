@@ -7,9 +7,9 @@ interface StatisticsRowProps {
 
 export const StatisticsRow: FC<StatisticsRowProps> = ({ label, value }: StatisticsRowProps) => {
   return (
-    <div className="flex flex-row justify-between">
+    <div className="flex flex-row justify-between p-2">
       <span>{label}</span>
-      <span>{value}</span>
+      <span className="ml-20">{value}</span>
     </div>
   );
 };
