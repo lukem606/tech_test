@@ -1,7 +1,12 @@
+export type CreateGameDto = Pick<
+  Game,
+  "winner" | "durationSecs" | "totalMoves"
+>;
+
 export type Game = {
   id: number;
   winner: Player;
-  duration: number;
+  durationSecs: number;
   totalMoves: number;
   createdAt: Date;
   updatedAt: Date;

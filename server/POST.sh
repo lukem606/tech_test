@@ -1,1 +1,1 @@
-curl localhost:3000/stats --json "{}"
+curl localhost:3002/games --json "{}"

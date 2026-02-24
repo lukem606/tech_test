@@ -1,12 +1,12 @@
-import sqlite3 from "sqlite3";
-import { open } from "sqlite";
-import type { Game } from "../types.js";
+import "dotenv/config";
+import { drizzle } from "drizzle-orm/node-postgres";
+import { migrate } from "drizzle-orm/node-postgres/migrator";
 
-const db = await open({
-  filename: "./games.db",
-  driver: sqlite3.Database,
-});
+export const db = drizzle(process.env.DATABASE_URL!);
 
-export const createGame = (game: Game) => {};
+const runMigrations = async () => {
+  console.log("Running migrations");
+  await migrate(db, { migrationsFolder: "./drizzle" });
+};
 
-export const getGames = () => {};
+runMigrations();
